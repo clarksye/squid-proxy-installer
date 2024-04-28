@@ -29,7 +29,7 @@ if [[ -d /etc/squid/ || -d /etc/squid3/ ]]; then
     exit 1
 fi
 
-if cat /etc/os-release | grep PRETTY_NAME | grep "Ubuntu 22.04"; then
+if cat /etc/os-release | grep PRETTY_NAME | grep "Ubuntu 24.04"; then
     /usr/bin/apt update
     /usr/bin/apt -y install apache2-utils squid
     touch /etc/squid/passwd
