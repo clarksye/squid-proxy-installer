@@ -42,6 +42,19 @@ if cat /etc/os-release | grep PRETTY_NAME | grep "Ubuntu 22.04"; then
     fi
     service squid restart
     systemctl enable squid
+elif cat /etc/os-release | grep PRETTY_NAME | grep "Ubuntu 22.04"; then
+    /usr/bin/apt update
+    /usr/bin/apt -y install apache2-utils squid
+    touch /etc/squid/passwd
+    mv /etc/squid/squid.conf /etc/squid/squid.conf.bak
+    /usr/bin/touch /etc/squid/blacklist.acl
+    /usr/bin/wget --no-check-certificate -O /etc/squid/squid.conf https://raw.githubusercontent.com/clarksye/squid-proxy-installer/master/conf/ubuntu-2204.conf
+    if [ -f /sbin/iptables ]; then
+        /sbin/iptables -I INPUT -p tcp --dport 3128 -j ACCEPT
+        /sbin/iptables-save
+    fi
+    service squid restart
+    systemctl enable squid
 elif cat /etc/os-release | grep PRETTY_NAME | grep "Ubuntu 20.04"; then
     /usr/bin/apt update
     /usr/bin/apt -y install apache2-utils squid
